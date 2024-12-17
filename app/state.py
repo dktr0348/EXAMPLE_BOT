@@ -6,3 +6,8 @@ class Register(StatesGroup):
     location = State()
     age = State()
     photo = State()
+
+class AddCategory(StatesGroup):
+    name = State()
+    sure = State()
+    cancel = State()

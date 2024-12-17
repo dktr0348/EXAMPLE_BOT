@@ -22,3 +22,7 @@ async def category_items(category_id):
         keyboard.add(InlineKeyboardButton(text=item.name, callback_data=f'item_{item.id}'))
     return keyboard.adjust(2).as_markup()
 
+sure = InlineKeyboardMarkup (inline_keyboard=[
+    [InlineKeyboardButton(text='Да', callback_data='ok-sure')], 
+    [InlineKeyboardButton(text='Нет', callback_data='cancel-sure')]],
+    resize_keyboard=True)

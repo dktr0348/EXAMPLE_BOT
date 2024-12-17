@@ -20,14 +20,14 @@ class User(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     tg_id = mapped_column(BigInteger)
     age: Mapped[int]
-    basket: Mapped[List['Basket']] = relationship(back_populates='user')
+    basket: Mapped[List['Basket']] = relationship(back_populates='user', cascade='all, delete')
 
 class Category(Base):
     __tablename__ = 'categories'
 
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(String(15))
-    item: Mapped[List['Item']] = relationship(back_populates='category')
+    item: Mapped[List['Item']] = relationship(back_populates='category', cascade='all, delete')
 
 class Item(Base):
     __tablename__ = 'items'
@@ -36,16 +36,16 @@ class Item(Base):
     name: Mapped[str] = mapped_column(String(15))
     description: Mapped[str] = mapped_column(String(150))
     price: Mapped[str] = mapped_column(String(10))
-    category_id: Mapped[int] = mapped_column(ForeignKey('categories.id'))
+    category_id: Mapped[int] = mapped_column(ForeignKey('categories.id', ondelete='CASCADE'))
     category: Mapped['Category'] = relationship(back_populates='item')
-    basket: Mapped[List['Basket']] = relationship(back_populates='item')
+    basket: Mapped[List['Basket']] = relationship(back_populates='item', cascade='all, delete')
 
 class Basket(Base):
     __tablename__ = 'basket'
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    user_id: Mapped[int] = mapped_column(ForeignKey('users.id'))
-    item_id: Mapped[int] = mapped_column(ForeignKey('items.id'))
+    user_id: Mapped[int] = mapped_column(ForeignKey('users.id', ondelete='CASCADE'))
+    item_id: Mapped[int] = mapped_column(ForeignKey('items.id', ondelete='CASCADE'))
     user: Mapped['User'] = relationship(back_populates='basket')
     item: Mapped['Item'] = relationship(back_populates='basket')
 

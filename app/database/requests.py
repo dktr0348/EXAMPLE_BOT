@@ -22,3 +22,10 @@ async def get_items_by_category(session, category_id):
 async def get_item(session, item_id):
     return await session.scalar(select(Item).where(Item.id==item_id))
    
+@connection
+async def add_category(session, name: str):
+    category = Category(name=name)
+    session.add(category)
+    await session.commit()
+    return category
+   
