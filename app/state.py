@@ -10,4 +10,20 @@ class Register(StatesGroup):
 class AddCategory(StatesGroup):
     name = State()
     sure = State()
-    cancel = State()
+   
+
+class DeleteCategory(StatesGroup):
+    select = State()
+    sure = State()
+   
+class AddItem(StatesGroup):
+    category = State()
+    name = State()
+    description = State()
+    price = State()
+    sure = State()
+   
+class DeleteItem(StatesGroup):
+    select = State()
+    sure = State()
+   

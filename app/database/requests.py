@@ -29,3 +29,20 @@ async def add_category(session, name: str):
     await session.commit()
     return category
    
+@connection
+async def delete_category(session, category_id: int):
+    await session.execute(delete(Category).where(Category.id==category_id))
+    await session.commit()
+
+@connection
+async def add_item(session, name: str, description: str, price: str, category_id: int):
+    item = Item(name=name, description=description, price=price, category_id=category_id)
+    session.add(item)
+    await session.commit()
+    return item
+
+@connection
+async def delete_item(session, item_id: int):
+    await session.execute(delete(Item).where(Item.id==item_id))
+    await session.commit()
+
