@@ -83,13 +83,14 @@ async def add_item(message: Message, state: FSMContext):
     await message.answer("Выбрать категорию для добавления товара:",
                          reply_markup=keyboard)
 
-@admin.callback_query(F.data.startswith("category_"), st.AddItem.category)
+@admin.callback_query(F.data.startswith("addcategory_"), st.AddItem.category)  # Добавляем проверку состояния
 async def add_item_name(callback: CallbackQuery, state: FSMContext):
-    await callback.answer()
-    await state.update_data(category_id=callback.data.split("_")[1])
+    category_id = int(callback.data.split("_")[1])
+    await state.update_data(category_id=category_id)
     await state.set_state(st.AddItem.name)
     await callback.message.answer("Введите название товара:")
     await callback.answer()
+
 @admin.message(Admin(), st.AddItem.name)
 async def add_item_description(message: Message, state: FSMContext):
     await state.update_data(name=message.text)
@@ -117,7 +118,7 @@ async def add_item_sure(message: Message, state: FSMContext):
 async def add_item_callback(callback: CallbackQuery, state: FSMContext):
     await callback.answer()
     data = await state.get_data()
-    await db.add_item(data['name'], data['description'], data['price'], data['category'])
+    await db.add_item(data['name'], data['description'], data['price'], data['category_id'])
     await callback.message.answer("Товар добавлен",
                                   reply_markup=kb.admin_main)
     await state.clear()

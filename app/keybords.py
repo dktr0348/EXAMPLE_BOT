@@ -49,5 +49,5 @@ async def admin_categories():
     all_categories = await db.get_categories()
     keyboard = InlineKeyboardBuilder()
     for category in all_categories:
-        keyboard.add(InlineKeyboardButton(text=category.name, callback_data=f'category_{category.id}'))
+        keyboard.add(InlineKeyboardButton(text=category.name, callback_data=f'addcategory_{category.id}'))
     return keyboard.adjust(2).as_markup()
